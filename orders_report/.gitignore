@@ -1,0 +1,2 @@
+#ignores the file with the local variables used for development
+.env
