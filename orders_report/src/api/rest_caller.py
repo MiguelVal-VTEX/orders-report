@@ -10,18 +10,47 @@ ACCOUNT = os.getenv('ACCOUNT')
 ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 
-def api_call(method, url,headers, payload):
+def api_call(
+    method: str, 
+    url: str,
+    headers: str, 
+    payload: str
+    ) -> requests.Response: 
 
-    #Calls requests based on API Rest
+    """A function to execute rest API calls
+
+    Keyword arguments:
+    method  -- the http verb used for the operation
+    url     -- the endpoint in which the request will be sent
+    headers -- parameters send with channel information, specifically acceptance protocols and authentication
+    payload -- data within the API call
+    
+    Returns:
+        response: request.Response -- API call response formated as a requests object
+    """    
+    
     data = json.dumps(payload)
     response = requests.request(method, url, headers=headers, data = data)
 
-    #print(response.json()['token'])
-
     return response
 
-def graphql_call(action, variables, headers):
-    #Calls requests based on GraphQL Client
+def graphql_call(
+    action: str, 
+    variables: str, 
+    headers: str
+    ) -> requests.Response:
+    
+    '''Executes a graphQL based API
+    
+    action      -- Defines wether the call will be a mutation or a query. It contains the definition for the call aswell
+    variables   -- Variables set for the call
+    headers     -- Authentication data
+    
+    Returns:
+        response: request.Response -- API call response formated as a requests object
+    
+    '''
+    
     client = GraphqlClient(f'https://{ACCOUNT}.{ENVIRONMENT}/_v/private/graphql/v1')
     response = client.execute(action,variables=variables, headers=headers)
 
